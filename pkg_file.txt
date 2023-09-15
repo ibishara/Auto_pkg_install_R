@@ -1,8 +1,6 @@
-dplyr=CRAN
-ggplot2=CRAN
-Biobase=Bioconductor
-DESeq2=Bioconductor
-tidyverse=conda
+# Format: package=source
+
+Seurat=CRAN
+treeio=Bioconductor
+ComplexHeatmap=GitHub:jokergoo/ComplexHeatmap
 data.table=conda
-usethis=GitHub
-roxygen2=GitHub
