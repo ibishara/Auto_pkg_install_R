@@ -91,5 +91,3 @@ EOF
 
 
 }
-
-setup_R_environment $1 $2
