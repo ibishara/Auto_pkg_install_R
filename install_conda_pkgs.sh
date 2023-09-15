@@ -1,6 +1,6 @@
 #!/bin/bash
 
-setup_R_environment() {
+install_conda_pkgs() {
   env_name="$1"
   pkg_input="$2"
 
