@@ -1,4 +1,4 @@
-# Automatic Package Installer To Conda Environments (Supports R Repositories)
+# Automatic Package Installer For Conda Environments (Supports R Repositories)
 ## Overcomes the time intensive manual installion of individual packages into new and existing conda environments
 #### Features
 
