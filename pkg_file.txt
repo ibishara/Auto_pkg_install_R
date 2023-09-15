@@ -4,3 +4,4 @@ Seurat=CRAN
 treeio=Bioconductor
 ComplexHeatmap=GitHub:jokergoo/ComplexHeatmap
 data.table=conda
+numpy=pip
