@@ -18,3 +18,12 @@
 1. Load the function into your terminal session or source it from a file:
    ```bash
    source pkg_install_v0.01.sh
+   
+2. Run the function with the environment name and package file as arguments, or directly provide a named list from a string (format: source:package,source:package,...):
+
+   ```bash
+   setup_R_environment "analysis_test" "pkg_file.txt"
+or
+   ```bash
+   setup_R_environment "analysis_test" "CRAN:ggplot2,Bioconductor:ggtree,GitHub:jokergoo/ComplexHeatmap"
+
