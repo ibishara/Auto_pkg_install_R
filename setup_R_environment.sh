@@ -68,21 +68,27 @@ for (pkg in names(pkgs)) {
 }
 EOF
 
-# Install packages via Conda next
-for pkg in "${!packages[@]}"
-do
+  # Install packages via Conda or pip
+  for pkg in "${!packages[@]}"
+  do
+    # Conda installation
     if [ "${packages[$pkg]}" == "conda" ]; then
-        for channel in "conda-forge" "r" "bioconda"
-        do
-            echo "Trying to install r-$pkg through Conda channel $channel..." | tee -a install.log
-            conda run -n $env_name conda install -c $channel r-$pkg -y 2>&1 | tee -a install.log && break || echo "Could not install r-$pkg through Conda channel $channel, trying without 'r-' prefix..." | tee -a install.log
-            if [ $? -ne 0 ]; then
-                echo "Trying to install $pkg through Conda channel $channel..." | tee -a install.log
-                conda run -n $env_name conda install -c $channel $pkg -y 2>&1 | tee -a install.log && break || echo "Could not install $pkg through Conda channel $channel" | tee -a install.log
-            fi
-        done
+      for channel in "conda-forge" "r" "bioconda"
+      do
+        echo "Trying to install r-$pkg through Conda channel $channel..." | tee -a install.log
+        conda run -n $env_name conda install -c $channel r-$pkg -y 2>&1 | tee -a install.log && break || echo "Could not install r-$pkg through Conda channel $channel, trying without 'r-' prefix..." | tee -a install.log
+        if [ $? -ne 0 ]; then
+          echo "Trying to install $pkg through Conda channel $channel..." | tee -a install.log
+          conda run -n $env_name conda install -c $channel $pkg -y 2>&1 | tee -a install.log && break || echo "Could not install $pkg through Conda channel $channel" | tee -a install.log
+        fi
+      done
+    # Pip installation
+    elif [ "${packages[$pkg]}" == "pip" ]; then
+      echo "Trying to install $pkg through pip..." | tee -a install.log
+      conda run -n $env_name pip install $pkg 2>&1 | tee -a install.log || echo "Could not install $pkg through pip" | tee -a install.log
     fi
-done
+  done
+
 
 }
 
