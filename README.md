@@ -11,19 +11,19 @@
 
 
 #### Usage
-1. Download `setup_R_environment.sh` and `pkg_file.txt`. 
+1. Download `install_conda_pkgs.sh` and `pkg_file.txt`. 
 2. Load the function into your terminal session or source it from a file:
    ```bash
-   source setup_R_environment.sh
+   source install_conda_pkgs.sh
    
 3. Run the function, specifying the environment name and package file as arguments. Alternatively, you can provide a string to populate the named list of packages and their sources:
 
    ```bash
    # Using a package file
-   setup_R_environment "ENV_NAME" "pkg_file.txt"
+   install_conda_pkgs "ENV_NAME" "pkg_file.txt"
    
    # Using a string argument
-   setup_R_environment "ENV_NAME" "CRAN:ggplot2,Bioconductor:ggtree,GitHub:jokergoo/ComplexHeatmap,pip:numpy"
+   install_conda_pkgs "ENV_NAME" "CRAN:ggplot2,Bioconductor:ggtree,GitHub:jokergoo/ComplexHeatmap,pip:numpy"
    ```
    #### Example `pkg_file.txt`: 
    ```
