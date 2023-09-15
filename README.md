@@ -1,12 +1,11 @@
-# Auto_pkg_install_R
-## Automatic R Package Installer For Conda Environment
+### Automatic Package Installer For Conda (Supports R Repositories)
 
 #### Features
 
 - **Environment Creation:** Create and activate a new conda environment if it doesn't already exist.
 - **Package File:** Install packages based on user input provided in a `pkg_file.txt`. The file should list the package names and their corresponding repositories.
 - **Manual Package Input:** Install packages based on user input of repo:package in command line.
-- **Multi-Repository Support:** Supports installation of packages from CRAN, Bioconductor, Conda, and GitHub.
+- **Multi-Repository Support:** Supports installation of packages from R language repos as CRAN and Bioconductor, in addition to Conda and GitHub.
 - **GitHub Formatting:** Supports GitHub packages with the format `username/package_name`.
 - **Conda Channels:** Installs Conda packages from the `conda-forge`, `r`, and `bioconda` channels.
 
