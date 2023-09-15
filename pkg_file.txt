@@ -1,0 +1,8 @@
+dplyr=CRAN
+ggplot2=CRAN
+Biobase=Bioconductor
+DESeq2=Bioconductor
+tidyverse=conda
+data.table=conda
+usethis=GitHub
+roxygen2=GitHub
