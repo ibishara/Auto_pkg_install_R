@@ -12,18 +12,19 @@
 
 
 #### Usage
-1. Load the function into your terminal session or source it from a file:
+1. Download `setup_R_environment.sh` and `pkg_file.txt`. 
+2. Load the function into your terminal session or source it from a file:
    ```bash
-   source pkg_install_v0.01.sh
+   source setup_R_environment.sh
    
-2. Run the function, specifying the environment name and package file as arguments. Alternatively, you can provide a string to populate the named list of packages and their sources:
+3. Run the function, specifying the environment name and package file as arguments. Alternatively, you can provide a string to populate the named list of packages and their sources:
 
    ```bash
    # Using a package file
-   setup_R_environment "analysis_test" "pkg_file.txt"
+   setup_R_environment "ENV_NAME" "pkg_file.txt"
    
    # Using a string argument
-   setup_R_environment "analysis_test" "CRAN:ggplot2,Bioconductor:ggtree,GitHub:jokergoo/ComplexHeatmap"
+   setup_R_environment "ENV_NAME" "CRAN:ggplot2,Bioconductor:ggtree,GitHub:jokergoo/ComplexHeatmap"
    ```
    #### Example `pkg_file.txt`: 
    ```
