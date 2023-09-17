@@ -1,127 +1,71 @@
 "# Automatic package installer for R
 
-Build an automatic package installer from different package repositories
+Inputs
+env_name: A string representing the name of the Conda environment to be created or used.
+pkg_input: A string or filename that specifies the packages to be installed and their sources. If a filename is provided, it should contain lines in the format package_name=source.
 
-### Tech stack
+Objectives
+Environment Setup: Create or use a specified Conda environment and install the R base package (r-base) if the environment doesn't exist.
+Package Installation: Automatically install various types of packages—R packages, Conda packages, and Pip packages—into the specified Conda environment.
+Error Handling and Logging: Keep track of which packages fail to install, log the installation process, and output a summary.
 
-- Bash with conda
+Features of the Function
+Multi-Source Package Installation: Supports the installation of R packages from multiple sources like CRAN, Bioconductor, and GitHub.
+Conda and Pip Support: Can install Python packages from both Conda and Pip repositories.
+Batch Installation: Supports the installation of multiple packages by reading them from a file.
+Dynamic Channel Lookup for Conda: Attempts to install Conda packages from multiple channels (conda-forge, r, bioconda) until successful.
+Logging: Logs the installation process and any errors to an install.log file.
+Error Reporting: Writes the names of failed R packages to a separate file called failed_r_packages.txt.
+Debugging Support: Includes debug lines to print intermediate variables for troubleshooting.
 
-### Features
 
-- create an activate new conda environment if doesn't exist as first bash argument
-- install packages based on user input in pkg_file.txt (second bash argument) with package name and repository
-- install from CRAN, Bioconductor, Conda, or github 
-- includes mandatory installation of devtools package to handle github installations 
+Below are the detailed step-by-step instructions outlining what the `install_conda_pkgs` function does:
 
+### Step 1: Initialize Variables
+- `failed_pkgs`: An empty array to store the names of packages that fail to install.
+- `env_exists`: A variable that will store whether the specified Conda environment already exists.
+- `pkgs_r`: An empty string to store R package names and their sources in a named list format.
+- `conda_pkgs` and `pip_pkgs`: Empty arrays to store the names of Conda and Pip packages, respectively.
 
-Use the following bash code as a template: 
+### Step 2: Check If Conda Environment Exists
+- Run the `conda env list` command to list all existing Conda environments.
+- Use `awk` and `grep` to check if the specified environment (`env_name`) exists.
+- If it doesn't exist, create a new Conda environment and install the `r-base` package.
 
-#!/bin/bash
+### Step 3: Activate Conda Environment
+- Activate the specified Conda environment using the `conda activate` command.
 
-install_conda_pkgs() {
-  env_name="$1"
-  pkg_input="$2"
+### Step 4: Read Package List
+- Check if `pkg_input` is a filename or a string specifying a single package.
+- If it's a filename, read the file line-by-line:
+  - Skip lines starting with a `#` (comments).
+  - Parse the package name (`key`) and source (`value`).
+  - Add this information to the appropriate variables (`pkgs_r`, `conda_pkgs`, `pip_pkgs`).
 
-  # List to hold packages that failed to install
-  failed_pkgs=()
+### Step 5: Format R Packages List
+- Remove the trailing comma from `pkgs_r`.
+- Wrap the elements in `list()` to form a valid R named list.
 
-  # Check if conda environment already exists
-  env_exists=$(conda env list | awk '{print $1}' | grep -w $env_name)
-  if [[ -z $env_exists ]]; then
-    conda create -n $env_name r-base -y 2>&1 | tee install.log
-  fi
+### Step 6: Install R Packages
+- Use `Rscript` to execute inline R code:
+  - Iterate through the list of R packages (`pkgs_r`).
+  - Check if the package is already installed.
+  - If not, attempt to install it from the specified source (CRAN, Bioconductor, or GitHub).
+  - Catch errors and update `failed_r_pkgs` if the installation fails.
 
-  # Activate the environment
-  conda activate $env_name
+### Step 7: Install Conda Packages
+- Iterate through the `conda_pkgs` array:
+  - Try to install each package from different channels (`conda-forge`, `r`, `bioconda`) until successful.
+  - If the package fails to install from all channels, add it to `failed_pkgs`.
 
-  # Initialize an empty string for R named list elements
-  pkgs_r=""
+### Step 8: Install Pip Packages
+- Iterate through the `pip_pkgs` array:
+  - Try to install each package using Pip.
+  - If the installation fails, add the package name to `failed_pkgs`.
 
-  # Initialize indexed arrays for Conda and Pip packages
-  conda_pkgs=()
-  pip_pkgs=()
+### Step 9: Error Reporting and Logging
+- Check the `failed_pkgs` array:
+  - If it's not empty, print the names of the packages that failed to install and append this information to `install.log`.
+  - If it's empty, print a success message and append it to `install.log`.
 
-  # Check if the package input is a file or a string
-  if [[ -f $pkg_input ]]; then
-    while IFS="=" read -r key value; do
-      if [[ $key =~ ^# ]]; then continue; fi  # Skip comment lines
-      if [[ $value == GitHub* ]]; then
-        repository=${value#GitHub:}
-        pkgs_r+="${key}=\"${repository}\","
-        value="GitHub"
-      else
-        pkgs_r+="${key}=\"${value}\","
-      fi
-      if [[ $value == conda ]]; then
-        conda_pkgs+=("$key")
-      elif [[ $value == pip ]]; then
-        pip_pkgs+=("$key")
-      fi
-    done < "$pkg_input"
-  fi
-
-  # Remove trailing comma and wrap the elements in list()
-  pkgs_r=${pkgs_r%,}
-  pkgs_r="list(${pkgs_r})"
-
-  # Debug: Print pkgs_r
-  echo "Debug: pkgs_r is $pkgs_r" | tee -a install.log
-
-  # R script for package installation
-  Rscript - <<EOF | tee -a install.log
-    options(repos = 'https://cran.r-project.org')  # Set CRAN mirror
-    failed_r_pkgs <- character(0)
-    pkgs <- $pkgs_r
-    for (pkg in names(pkgs)) {
-      source <- pkgs[[pkg]]
-      if (!require(pkg, character.only = TRUE)) {
-        tryCatch({
-          if (source == "CRAN") install.packages(pkg)
-          else if (source == "Bioconductor") {
-            if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
-            BiocManager::install(pkg)
-          } else if (source == "GitHub") devtools::install_github(pkg)
-        },
-        error = function(e) {
-          message(paste0("Could not install ", pkg, " through ", source))
-          failed_r_pkgs <- c(failed_r_pkgs, pkg)
-        })
-      }
-    }
-    if (length(failed_r_pkgs) > 0) {
-      message(paste0("Failed to install the following R packages: ", paste(failed_r_pkgs, collapse = ", ")))
-      write(paste(failed_r_pkgs, collapse = ","), "failed_r_packages.txt")
-    }
-EOF
-
-  # Install Conda packages
-  for pkg in "${conda_pkgs[@]}"; do
-    installed=false
-    for channel in "conda-forge" "r" "bioconda"; do
-      conda run -n $env_name conda install -c $channel r-$pkg -y 2>&1 | tee -a install.log && { installed=true; break; }
-    done
-    if [[ $installed == false ]]; then
-      failed_pkgs+=("r-$pkg (Conda)")
-    fi
-  done
-
-  # Install Pip packages
-  for pkg in "${pip_pkgs[@]}"; do
-    conda run -n $env_name pip install $pkg 2>&1 | tee -a install.log || failed_pkgs+=("$pkg (pip)")
-  done
-
-  # Print the list of failed packages
-  if [ ${#failed_pkgs[@]} -ne 0 ]; then
-    echo "The following packages failed to install:" | tee -a install.log
-    for pkg in "${failed_pkgs[@]}"; do
-      echo "  - $pkg" | tee -a install.log
-    done
-  else
-    echo "All packages installed successfully." | tee -a install.log
-  fi
-}
-
-# Example usage
-# install_conda_pkgs "my_env" "pkg_list.txt"
-# install_conda_pkgs "my_env" "CRAN:data.table"
-
+That covers the step-by-step execution of the `install_conda_pkgs` function. Each step is designed to handle a specific aspect of the package installation process, from environment setup to error reporting.
