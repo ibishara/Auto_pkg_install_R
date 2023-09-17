@@ -1,0 +1,1 @@
+The install.log file is a log file, not a script file. It doesn't contain executable code but is written to by the bash script during execution. Therefore, it's not possible to generate code for the install.log file. It will be created and written to during the execution of the conda_installer.sh script.
