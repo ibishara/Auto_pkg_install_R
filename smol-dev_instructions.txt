@@ -1,10 +1,11 @@
-"# Automatic package installer for R
+"Bash-based Automatic conda package installer"
 
 Inputs
 env_name: A string representing the name of the Conda environment to be created or used.
 pkg_input: A string or filename that specifies the packages to be installed and their sources. If a filename is provided, it should contain lines in the format package_name=source.
 
 Objectives
+Bash application 
 Environment Setup: Create or use a specified Conda environment and install the R base package (r-base) if the environment doesn't exist.
 Package Installation: Automatically install various types of packages—R packages, Conda packages, and Pip packages—into the specified Conda environment.
 Error Handling and Logging: Keep track of which packages fail to install, log the installation process, and output a summary.
