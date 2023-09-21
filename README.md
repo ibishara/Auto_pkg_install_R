@@ -2,6 +2,7 @@
 
 ### Problem
 Installing different packages into a conda environment from different repos (e.g., R packages) is a manual, time consuming task. Usually, some packages are installable through conda shell scripting while others are available from inside R as CRAN, Bioconductor. 
+
 Installation may include troubleshooting failed dependencies, finding alternative repos, going back and forth between shell and R environments. 
 
 ### Goal
