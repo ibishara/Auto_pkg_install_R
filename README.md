@@ -6,7 +6,7 @@ Installing different packages into a conda environment from different repos (e.g
 Installation may include troubleshooting failed dependencies, finding alternative repos, going back and forth between shell and R environments. 
 
 ### Goal
-Automate the installation process by simply providing package names. Preferred repo per package can also be provided.
+Automate the installation process by simply providing package & repo names.
 
 #### Features
 
