@@ -8,7 +8,7 @@
 - **Multi-Repository Support:** Supports installation of packages from R language repos as CRAN and Bioconductor, in addition to Pip, Conda, and GitHub.
 - **GitHub Formatting:** Supports GitHub packages with the format `username/package_name`.
 - **Conda Channels:** Installs Conda packages from the `conda-forge`, `r`, and `bioconda` channels.
-- **Supports bash and zsh shells 
+- **Shell Support:** Supports bash and zsh 
 
 
 #### Usage
