@@ -1,5 +1,12 @@
 # Automatic Package Installer For Conda Environments (Supports R Repositories)
-## Overcomes the time intensive manual installion of individual packages into new and existing conda environments
+
+### Problem
+Installing different packages into a conda environment from different repos (e.g., R packages) is a manual time consuming task. Some packages installable from conda through   shell script while others are available from inside R as CRAN, Bioconductor. 
+Installation may include troubleshooting failed dependencies, finding alternative repos, going back and forth between shell and R environments. 
+
+### Goal
+Automate the installation process by simply providing package names. Preferred repo per package can also be provided.
+
 #### Features
 
 - **Environment Creation:** Create and activate a new conda environment if it doesn't already exist.
