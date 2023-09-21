@@ -44,4 +44,5 @@ Automate the installation process by simply providing package names. Preferred r
    numpy=pip
    ```
 
-
+#### Limitations
+1. Cannot deal with library dependencies errors.
