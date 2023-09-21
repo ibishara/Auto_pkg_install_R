@@ -7,11 +7,16 @@ install_conda_pkgs() {
   # List to hold packages that failed to install
   failed_pkgs=()
 
-  # Check if conda environment already exists
-  env_exists=$(conda env list | awk '{print $1}' | grep -w $env_name)
-  if [[ -z $env_exists ]]; then
-    conda create -n $env_name r-base -y 2>&1 | tee install.log
-  fi
+# Check if conda environment already exists
+env_exists=$(conda env list | awk '{print $1}' | grep -w $env_name)
+if [[ -z $env_exists ]]; then
+  # Add multiple channels
+  conda config --add channels r
+  conda config --add channels bioconda
+  conda config --add channels conda-forge
+
+  conda create -n $env_name r-base -y 2>&1 | tee install.log
+fi
 
   # Activate the environment
   conda activate $env_name
@@ -90,11 +95,13 @@ outdated_deps=()
 
 # Parse the R stderr log to find missing and outdated dependencies
 while IFS= read -r line; do
-  if [[ $line == *"not available for package"* ]]; then
-    dep=$(echo $line | awk -F"‘|’" '{print $2}')
+  # Change here for POSIX-compliant string comparison
+  if [[ "$line" =~ "not available for package" ]]; then
+    dep=$(echo "$line" | awk -F"‘|’" '{print $2}')
     missing_deps+=("$dep")
-  elif [[ $line == *"is being loaded, but"* "is required" ]]; then
-    dep=$(echo $line | awk -F"‘|’" '{print $2}')
+  # Change here for POSIX-compliant string comparison
+  elif [[ "$line" =~ "is being loaded, but" ]] && [[ "$line" =~ "is required" ]]; then
+    dep=$(echo "$line" | awk -F"‘|’" '{print $2}')
     outdated_deps+=("$dep")
   fi
 done < "R_stderr.log"
