@@ -45,4 +45,4 @@ Automate the installation process by simply providing package names. Preferred r
    ```
 
 #### Limitations
-1. Cannot deal with library dependencies errors.
+1. Cannot deal with library dependencies errors (yet).
