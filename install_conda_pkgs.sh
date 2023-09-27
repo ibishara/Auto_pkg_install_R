@@ -21,6 +21,9 @@ fi
   # Activate the environment
   conda activate $env_name
 
+  # Install devtools from conda to install GitHub packages
+  conda install -c conda-forge r-devtools
+
   # Initialize an empty string for R named list elements
   pkgs_r=""
 
