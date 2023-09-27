@@ -45,5 +45,4 @@ Automate the installation process by simply providing package & repo names.
    numpy=pip
    ```
 
-#### Limitations
-1. Cannot deal with library dependencies errors (yet).
+
