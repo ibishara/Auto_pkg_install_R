@@ -18,29 +18,29 @@ To streamline this process, this tool automates the installation of multiple pac
 
 
 #### Installation
-1. Make sure `~/.local/bin` is included in your PATH environment variable. If it's not, add the following line to your `.bashrc` or `.zshrc` and then run `source ~/.bashrc` or `source ~/.zshrc`:
+Make sure `~/.local/bin` is included in your PATH environment variable. If it's not, add the following line to your `.bashrc` or `.zshrc` and then run `source ~/.bashrc` or `source ~/.zshrc`:
    ```bash
    export PATH=$PATH:~/.local/bin
    ```
-2. Run the following command to download `install_conda_pkgs.sh` and `pkg_file.txt`:
+Run the following command to download `install_conda_pkgs.sh` and `pkg_file.txt`:
    ```bash
    curl -O https://raw.githubusercontent.com/ibishara/Automatic_Conda_Packages_Installer/main/install_conda_pkgs.sh && curl -O https://raw.githubusercontent.com/ibishara/Automatic_Conda_Packages_Installer/main/pkg_file.txt &&       chmod +x install_conda_pkgs.sh && mv install_conda_pkgs.sh ~/.local/bin/ && mv pkg_file.txt ~/
    ```
 
 #### Usage
-1.After installation, open the `pkg_file.txt` in your home directory and modify it to include the packages you want to install:
+After installation, open the `pkg_file.txt` in your home directory and modify it to include the packages you want to install:
    ```bash
    vi ~/pkg_file.txt
    ```
 Or use another text editor of your choice.
 
-2. To install the packages, run the install_conda_pkgs script with the Conda environment name (ENV_NAME) and the path to `pkg_file.txt`:
+To install the packages, run the install_conda_pkgs script with the Conda environment name (ENV_NAME) and the path to `pkg_file.txt`:
    ```bash
    install_conda_pkgs "ENV_NAME" "~/pkg_file.txt"
    ```
 Alternatively, you can specify packages directly as a string:
    ```bash
-   install_conda_pkgs "ENV_NAME" "~/pkg_file.txt"
+   install_conda_pkgs "ENV_NAME" "CRAN:ggplot2,Bioconductor:ggtree,GitHub:jokergoo/ComplexHeatmap,pip:numpy"
    ```
 #### Example `pkg_file.txt`: 
    ```
