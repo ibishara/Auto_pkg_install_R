@@ -17,7 +17,7 @@ Automate the installation process by simply providing package & repo names.
 - **GitHub Formatting:** Supports GitHub packages with the format `username/package_name`.
 - **Conda Channels:** Installs Conda packages from the `conda-forge`, `r`, and `bioconda` channels.
 - **Shell Support:** bash and zsh 
-- **Handles Failed Dependencies:**
+- **Handles Failed Dependencies**
 
 #### Usage
 1. Download `install_conda_pkgs.sh` and `pkg_file.txt`. 
