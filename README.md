@@ -31,7 +31,7 @@ Automate the installation process by simply providing package & repo names.
    # Using a package file
    install_conda_pkgs "ENV_NAME" "pkg_file.txt"
    
-   # Using a string argument
+   # Or using a string argument
    install_conda_pkgs "ENV_NAME" "CRAN:ggplot2,Bioconductor:ggtree,GitHub:jokergoo/ComplexHeatmap,pip:numpy"
    ```
    #### Example `pkg_file.txt`: 
