@@ -20,17 +20,16 @@ Automate the installation process by simply providing package & repo names.
 - **Handles Failed Dependencies**
 
 #### Usage
-1. Download `install_conda_pkgs.sh` and `pkg_file.txt`.
-2. Modify `pkg_file.txt` with package and repo names you want to install.
-3. Open a terminal/cmd session where the files are downloaded. Load the function into your terminal session or source it from a file:
+1. Download `install_conda_pkgs.sh` and `pkg_file.txt` using this command: `curl -O https://raw.githubusercontent.com/ibishara/Automatic_Conda_Packages_Installer/main/install_conda_pkgs.sh && curl -O https://raw.githubusercontent.com/ibishara/Automatic_Conda_Packages_Installer/main/pkg_file.txt && chmod +x install_conda_pkgs.sh && mv install_conda_pkgs.sh ~/.local/bin/ && mv pkg_file.txt ~/`
+2. Use vim or nano to modify `pkg_file.txt` with package and repo names you'd like to install.
    ```bash
-   source install_conda_pkgs.sh
+   vi ~/pkg_file.txt
    
-4. Run the function, specifying the environment name and package file as arguments. Alternatively, you can provide a string to populate the named list of packages and their sources:
+4. Specify the conda environment name `"ENV_NAME"` and package file as arguments. Alternatively, you can provide a string to populate the named list of packages and their sources:
 
    ```bash
    # Using a package file
-   install_conda_pkgs "ENV_NAME" "pkg_file.txt"
+   install_conda_pkgs "ENV_NAME" "~/pkg_file.txt"
    
    # Or using a string argument
    install_conda_pkgs "ENV_NAME" "CRAN:ggplot2,Bioconductor:ggtree,GitHub:jokergoo/ComplexHeatmap,pip:numpy"
@@ -39,11 +38,12 @@ Automate the installation process by simply providing package & repo names.
    ```
    # Format: package=source
    
+   numpy=pip
    Seurat=CRAN
    treeio=Bioconductor
    ComplexHeatmap=GitHub:jokergoo/ComplexHeatmap
    data.table=conda
-   numpy=pip
+
    ```
 
 
