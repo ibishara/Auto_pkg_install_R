@@ -22,7 +22,7 @@ Automate the installation process by simply providing package & repo names.
 #### Usage
 1. Download `install_conda_pkgs.sh` and `pkg_file.txt`.
 2. Modify `pkg_file.txt` with package and repo names you want to install.
-3. Load the function into your terminal session or source it from a file:
+3. Open a terminal/cmd session where the files are downloaded. Load the function into your terminal session or source it from a file:
    ```bash
    source install_conda_pkgs.sh
    
