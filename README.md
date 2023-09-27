@@ -20,12 +20,13 @@ Automate the installation process by simply providing package & repo names.
 - **Handles Failed Dependencies**
 
 #### Usage
-1. Download `install_conda_pkgs.sh` and `pkg_file.txt`. 
-2. Load the function into your terminal session or source it from a file:
+1. Download `install_conda_pkgs.sh` and `pkg_file.txt`.
+2. Modify `pkg_file.txt` with package and repo names you want to install.
+3. Load the function into your terminal session or source it from a file:
    ```bash
    source install_conda_pkgs.sh
    
-3. Run the function, specifying the environment name and package file as arguments. Alternatively, you can provide a string to populate the named list of packages and their sources:
+4. Run the function, specifying the environment name and package file as arguments. Alternatively, you can provide a string to populate the named list of packages and their sources:
 
    ```bash
    # Using a package file
